@@ -1,37 +1,150 @@
-<html>
+<!DOCTYPE html>
+<html lang="en">
 <head>
-    <title>Modern Minimalistic Pen Collection Dashboard</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pen Collection Dashboard</title>
     <style>
-        body { font-family: Arial, sans-serif; margin: 0; padding: 0; background: #f5f5f5; }
-        .container { width: 80%; margin: 0 auto; padding: 20px; }
-        h1 { text-align: center; color: #333; }
-        .pen { border: 1px solid #ddd; border-radius: 5px; padding: 10px; margin: 10px 0; background: #fff; }
-        .pen img { max-width: 100px; margin-right: 10px; }
-        .pen-details { display: flex; align-items: center; }
+        body {
+            background: linear-gradient(135deg, #2c3e50, #bdc3c7);
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            color: #ecf0f1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+        }
+        .container {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 10px;
+            padding: 20px;
+            width: 90%;
+            max-width: 800px;
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+        }
+        h1, h2 {
+            margin: 0;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        input, select {
+            padding: 10px;
+            width: 100%;
+            border: none;
+            border-radius: 5px;
+        }
+        button {
+            padding: 10px;
+            background: #2980b9;
+            border: none;
+            color: white;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .stats {
+            display: flex;
+            justify-content: space-around;
+        }
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            gap: 10px;
+        }
     </style>
 </head>
 <body>
     <div class="container">
         <h1>Pen Collection Dashboard</h1>
-        <div class="pen">
-            <div class="pen-details">
-                <img src="pen1.jpg" alt="Pen 1">
-                <div>
-                    <h2>Pen 1 Name</h2>
-                    <p>Description of Pen 1.</p>
-                </div>
+        <form id="addPenForm">
+            <h2>Add New Pen</h2>
+            <div class="form-group">
+                <input type="text" placeholder="Brand" name="brand" required>
             </div>
-        </div>
-        <div class="pen">
-            <div class="pen-details">
-                <img src="pen2.jpg" alt="Pen 2">
-                <div>
-                    <h2>Pen 2 Name</h2>
-                    <p>Description of Pen 2.</p>
-                </div>
+            <div class="form-group">
+                <input type="text" placeholder="Model" name="model" required>
             </div>
+            <div class="form-group">
+                <input type="text" placeholder="Nib" name="nib" required>
+            </div>
+            <div class="form-group">
+                <input type="text" placeholder="Body" name="body" required>
+            </div>
+            <div class="form-group">
+                <input type="text" placeholder="Ink" name="ink" required>
+            </div>
+            <div class="form-group">
+                <input type="text" placeholder="Notes" name="notes">
+            </div>
+            <div class="form-group">
+                <select name="status" required>
+                    <option value="active">Active</option>
+                    <option value="inactive">Inactive</option>
+                </select>
+            </div>
+            <button type="submit">Add Pen</button>
+        </form>
+        <h2>Quick Daily Logging</h2>
+        <form id="dailyLogForm">
+            <input type="text" placeholder="Pen Used" name="penUsed" required>
+            <button type="submit">Log Usage</button>
+        </form>
+        <div id="collectionDisplay"></div>
+        <div class="stats">
+            <div>Total Pens: <span id="totalPens">0</span></div>
+            <div>Used Today: <span id="usedToday">0</span></div>
+            <div>Favorites: <span id="favoritesCount">0</span></div>
         </div>
-        <!-- Add more pens as necessary -->
     </div>
+    <script>
+        const addPenForm = document.getElementById('addPenForm');
+        const dailyLogForm = document.getElementById('dailyLogForm');
+        const collectionDisplay = document.getElementById('collectionDisplay');
+        let penCollection = JSON.parse(localStorage.getItem('penCollection')) || [];
+
+        function updateDisplay() {
+            collectionDisplay.innerHTML = '';
+            penCollection.forEach(pen => {
+                const penDiv = document.createElement('div');
+                penDiv.innerText = `${pen.brand} ${pen.model} | Nib: ${pen.nib} | Status: ${pen.status}`;
+                collectionDisplay.appendChild(penDiv);
+            });
+            document.getElementById('totalPens').innerText = penCollection.length;
+        }
+
+        addPenForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            const formData = new FormData(addPenForm);
+            const newPen = {};
+            formData.forEach((value, key) => {
+                newPen[key] = value;
+            });
+            penCollection.push(newPen);
+            localStorage.setItem('penCollection', JSON.stringify(penCollection));
+            updateDisplay();
+            addPenForm.reset();
+        });
+
+        dailyLogForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            alert(`Logged usage for ${dailyLogForm.penUsed.value}`);
+            dailyLogForm.reset();
+        });
+
+        updateDisplay();
+        // Auto-reset daily log every midnight
+        const resetDailyLog = () => {
+            const now = new Date();
+            if (now.getHours() === 0 && now.getMinutes() === 0) {
+                alert('Daily log reset!');
+                // Reset logic here, if needed
+            }
+        };
+        setInterval(resetDailyLog, 60000);
+    </script>
 </body>
 </html>
