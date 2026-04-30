@@ -1,99 +1,652 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pen Collection Dashboard</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            background: linear-gradient(135deg, #f3f4f6, #e5e7eb);
-            color: #34495e;
-        }
-        header {
-            background: #2ecc71;
-            padding: 20px;
-            text-align: center;
-            color: white;
-            font-size: 2.5em;
-        }
-        .dashboard {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: space-around;
-            padding: 20px;
-        }
-        .pen-card {
-            background: white;
-            border: 1px solid #dcdcdc;
-            border-radius: 8px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-            margin: 10px;
-            padding: 15px;
-            width: 250px;
-            text-align: center;
-            transition: transform 0.2s;
-        }
-        .pen-card:hover {
-            transform: scale(1.05);
-        }
-        .search-form {
-            margin: 20px;
-            display: flex;
-            justify-content: center;
-        }
-        .search-form input[type="text"] {
-            padding: 10px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-            width: 200px;
-        }
-        .search-form button {
-            padding: 10px;
-            background: #3498db;
-            color: white;
-            border: none;
-            border-radius: 4px;
-            margin-left: 5px;
-            cursor: pointer;
-        }
-        .statistics {
-            margin: 20px;
-            text-align: center;
-        }
-    </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Fountain Pen Collection</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Mono:wght@300;400&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --ink: #1a1714;
+      --ink-soft: #4a4540;
+      --ink-muted: #8a8480;
+      --paper: #f7f4ef;
+      --paper-warm: #ede9e2;
+      --paper-rule: #d9d4cc;
+      --accent: #8b6f47;
+      --accent-light: #c9a96e;
+      --accent-pale: #f0e8d8;
+      --nib-green: #2d5a3d;
+      --nib-green-pale: #e4efe7;
+      --fill-blue: #2a4a7f;
+      --fill-blue-pale: #e4ebf5;
+      --gold: #b8962e;
+      --radius: 4px;
+      --radius-lg: 8px;
+    }
+
+    html { font-size: 16px; }
+
+    body {
+      font-family: 'DM Mono', monospace;
+      background: var(--paper);
+      color: var(--ink);
+      min-height: 100vh;
+      line-height: 1.6;
+    }
+
+    /* Header */
+    .site-header {
+      border-bottom: 1px solid var(--paper-rule);
+      padding: 2.5rem 2rem 2rem;
+      background: var(--paper);
+      position: sticky;
+      top: 0;
+      z-index: 10;
+    }
+
+    .header-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+
+    .site-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 2.2rem;
+      font-weight: 300;
+      letter-spacing: 0.01em;
+      color: var(--ink);
+      line-height: 1;
+    }
+
+    .site-title span {
+      font-style: italic;
+      color: var(--accent);
+    }
+
+    .site-subtitle {
+      font-size: 0.7rem;
+      color: var(--ink-muted);
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      margin-top: 0.4rem;
+    }
+
+    /* Stats bar */
+    .stats-bar {
+      display: flex;
+      gap: 0;
+      border: 1px solid var(--paper-rule);
+      border-radius: var(--radius);
+      overflow: hidden;
+      font-size: 0.7rem;
+    }
+
+    .stat-item {
+      padding: 0.5rem 1.1rem;
+      border-right: 1px solid var(--paper-rule);
+      text-align: center;
+    }
+
+    .stat-item:last-child { border-right: none; }
+
+    .stat-num {
+      display: block;
+      font-size: 1.15rem;
+      font-weight: 400;
+      color: var(--ink);
+      line-height: 1.2;
+    }
+
+    .stat-lbl {
+      color: var(--ink-muted);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      font-size: 0.62rem;
+    }
+
+    /* Main layout */
+    .main {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 2rem;
+    }
+
+    /* Toolbar */
+    .toolbar {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      margin-bottom: 2rem;
+      flex-wrap: wrap;
+    }
+
+    .toolbar-label {
+      font-size: 0.68rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--ink-muted);
+      margin-right: 0.25rem;
+    }
+
+    .chip {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.68rem;
+      letter-spacing: 0.06em;
+      padding: 5px 13px;
+      border-radius: 99px;
+      border: 1px solid var(--paper-rule);
+      background: transparent;
+      color: var(--ink-soft);
+      cursor: pointer;
+      transition: all 0.18s;
+    }
+
+    .chip:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+
+    .chip.active {
+      background: var(--ink);
+      border-color: var(--ink);
+      color: var(--paper);
+    }
+
+    .count-badge {
+      margin-left: auto;
+      font-size: 0.68rem;
+      color: var(--ink-muted);
+      letter-spacing: 0.08em;
+    }
+
+    /* Grid */
+    .pen-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: 1px;
+      border: 1px solid var(--paper-rule);
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      margin-bottom: 2rem;
+      background: var(--paper-rule);
+    }
+
+    .pen-card {
+      background: var(--paper);
+      padding: 1.4rem 1.3rem 1.2rem;
+      cursor: pointer;
+      transition: background 0.15s;
+      position: relative;
+    }
+
+    .pen-card:hover { background: var(--paper-warm); }
+
+    .pen-card.selected {
+      background: var(--accent-pale);
+    }
+
+    .pen-card.selected::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0;
+      width: 3px; height: 100%;
+      background: var(--accent);
+    }
+
+    .card-brand {
+      font-size: 0.6rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--ink-muted);
+      margin-bottom: 0.3rem;
+    }
+
+    .card-name {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.2rem;
+      font-weight: 400;
+      color: var(--ink);
+      line-height: 1.25;
+      margin-bottom: 0.15rem;
+    }
+
+    .card-model {
+      font-size: 0.68rem;
+      color: var(--accent);
+      margin-bottom: 0.9rem;
+      min-height: 1.1em;
+    }
+
+    .card-tags {
+      display: flex;
+      gap: 5px;
+      flex-wrap: wrap;
+      margin-bottom: 0.9rem;
+    }
+
+    .tag {
+      font-size: 0.6rem;
+      padding: 2px 8px;
+      border-radius: 99px;
+      letter-spacing: 0.05em;
+    }
+
+    .tag-nib { background: var(--nib-green-pale); color: var(--nib-green); }
+    .tag-fill { background: var(--fill-blue-pale); color: var(--fill-blue); }
+
+    .card-body-color {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      margin-bottom: 0.8rem;
+    }
+
+    .color-swatch {
+      width: 14px; height: 14px;
+      border-radius: 50%;
+      border: 1px solid rgba(0,0,0,0.1);
+      flex-shrink: 0;
+    }
+
+    .color-label {
+      font-size: 0.65rem;
+      color: var(--ink-muted);
+    }
+
+    .card-stars {
+      font-size: 0.75rem;
+      color: var(--gold);
+      letter-spacing: 2px;
+      margin-bottom: 0.75rem;
+    }
+
+    .card-snippet {
+      font-size: 0.68rem;
+      color: var(--ink-muted);
+      line-height: 1.55;
+      border-top: 1px solid var(--paper-rule);
+      padding-top: 0.7rem;
+    }
+
+    /* Detail panel */
+    .detail-panel {
+      border: 1px solid var(--paper-rule);
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      animation: slideIn 0.2s ease;
+    }
+
+    @keyframes slideIn {
+      from { opacity: 0; transform: translateY(8px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .detail-header {
+      background: var(--ink);
+      color: var(--paper);
+      padding: 1.75rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+    }
+
+    .detail-brand {
+      font-size: 0.62rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--accent-light);
+      margin-bottom: 0.4rem;
+    }
+
+    .detail-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.9rem;
+      font-weight: 300;
+      line-height: 1.2;
+      color: var(--paper);
+    }
+
+    .detail-edition {
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic;
+      font-size: 1rem;
+      color: var(--accent-light);
+      margin-top: 0.3rem;
+    }
+
+    .detail-close {
+      background: none;
+      border: 1px solid rgba(247,244,239,0.2);
+      color: var(--paper);
+      font-family: 'DM Mono', monospace;
+      font-size: 0.7rem;
+      padding: 5px 12px;
+      border-radius: 99px;
+      cursor: pointer;
+      transition: all 0.15s;
+      flex-shrink: 0;
+      margin-top: 0.2rem;
+    }
+
+    .detail-close:hover {
+      background: rgba(247,244,239,0.1);
+    }
+
+    .detail-body {
+      display: grid;
+      grid-template-columns: 1fr 1.4fr;
+      background: var(--paper);
+    }
+
+    .detail-specs {
+      padding: 1.75rem 2rem;
+      border-right: 1px solid var(--paper-rule);
+    }
+
+    .specs-heading {
+      font-size: 0.6rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--ink-muted);
+      margin-bottom: 1rem;
+    }
+
+    .spec-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0.5rem 0;
+      border-bottom: 1px solid var(--paper-rule);
+      font-size: 0.72rem;
+      gap: 1rem;
+    }
+
+    .spec-row:last-child { border-bottom: none; }
+
+    .spec-key { color: var(--ink-muted); flex-shrink: 0; }
+    .spec-val { color: var(--ink); text-align: right; }
+
+    .spec-stars { color: var(--gold); letter-spacing: 2px; }
+
+    .detail-review {
+      padding: 1.75rem 2rem;
+    }
+
+    .review-heading {
+      font-size: 0.6rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--ink-muted);
+      margin-bottom: 1rem;
+    }
+
+    .review-text {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.05rem;
+      font-weight: 300;
+      line-height: 1.8;
+      color: var(--ink-soft);
+    }
+
+    .detail-tags {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+      margin-top: 1.25rem;
+      padding-top: 1.25rem;
+      border-top: 1px solid var(--paper-rule);
+    }
+
+    .detail-tag {
+      font-size: 0.62rem;
+      padding: 3px 10px;
+      border-radius: 99px;
+      border: 1px solid var(--paper-rule);
+      color: var(--ink-muted);
+      letter-spacing: 0.05em;
+    }
+
+    /* Footer */
+    .site-footer {
+      max-width: 1100px;
+      margin: 3rem auto 0;
+      padding: 1.5rem 2rem;
+      border-top: 1px solid var(--paper-rule);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.65rem;
+      color: var(--ink-muted);
+      letter-spacing: 0.08em;
+    }
+
+    /* Responsive */
+    @media (max-width: 700px) {
+      .site-header { padding: 1.5rem 1rem 1.2rem; }
+      .main { padding: 1.25rem 1rem; }
+      .detail-body { grid-template-columns: 1fr; }
+      .detail-specs { border-right: none; border-bottom: 1px solid var(--paper-rule); padding: 1.25rem 1.25rem; }
+      .detail-review { padding: 1.25rem 1.25rem; }
+      .stats-bar { display: none; }
+      .header-inner { flex-direction: column; align-items: flex-start; }
+    }
+  </style>
 </head>
 <body>
-    <header>
-        <h1>Pen Collection Dashboard</h1>
-    </header>
-    <form class="search-form">
-        <input type="text" placeholder="Search pens..." />
-        <button type="submit">Search</button>
-    </form>
-    <div class="statistics">
-        <h2>Total Pens: 50</h2>
-        <h2>Your Woodex Pen is pre-loaded!</h2>
+
+<header class="site-header">
+  <div class="header-inner">
+    <div>
+      <h1 class="site-title">The <span>Pen Cabinet</span></h1>
+      <p class="site-subtitle">A fountain pen collection &amp; mini reviews</p>
     </div>
-    <div class="dashboard">
-        <div class="pen-card">
-            <h3>Woodex Pen</h3>
-            <p>Elegant design with smooth writing experience.</p>
+    <div class="stats-bar" id="stats-bar"></div>
+  </div>
+</header>
+
+<main class="main">
+  <div class="toolbar">
+    <span class="toolbar-label">Filter</span>
+    <button class="chip active" data-filter="all">All</button>
+    <button class="chip" data-filter="Fine">Fine</button>
+    <button class="chip" data-filter="SF">Soft fine</button>
+    <button class="chip" data-filter="Medium">Medium</button>
+    <button class="chip" data-filter="Broad">Broad</button>
+    <button class="chip" data-filter="Pilot">Pilot</button>
+    <button class="chip" data-filter="Platinum">Platinum</button>
+    <span class="count-badge" id="count-badge"></span>
+  </div>
+
+  <div class="pen-grid" id="pen-grid"></div>
+  <div id="detail-panel"></div>
+</main>
+
+<footer class="site-footer">
+  <span>Updated 2025</span>
+  <span>7 pens &middot; 4 brands &middot; 4 nib sizes</span>
+</footer>
+
+<script>
+  const pens = [
+    {
+      id: 1, brand: "Pilot", name: "Custom e95s", model: "",
+      nib: "Medium", fill: "Cartridge / Converter",
+      bodyColor: "#2b2b2b", bodyLabel: "Black ebonite",
+      material: "Ebonite", origin: "Japan", price: "~¥20,000",
+      rating: 5,
+      review: "The e95s is a hidden gem in the Pilot lineup. The #5 soft-spring nib gives just enough give for natural line variation without going full flex. Compact yet substantial in hand — the ebonite body feels warm and grippy over long writing sessions. A pen that rewards patience.",
+      tags: ["Ebonite body", "Soft spring nib", "Compact"]
+    },
+    {
+      id: 2, brand: "Pilot", name: "Custom 74", model: "",
+      nib: "Medium", fill: "Cartridge / Converter",
+      bodyColor: "#1a3a6b", bodyLabel: "Deep navy resin",
+      material: "Resin", origin: "Japan", price: "~¥10,000",
+      rating: 4,
+      review: "The workhorse of the Pilot Custom line. The #5 gold nib is reliable, smooth, and consistent — perfect for everyday correspondence. Slightly more feedback than the e95s but beautifully balanced in hand. A pen that disappears while you write.",
+      tags: ["Daily driver", "Gold nib", "Reliable"]
+    },
+    {
+      id: 3, brand: "Pilot", name: "Custom Heritage 92", model: "",
+      nib: "Broad", fill: "Vacuum filler",
+      bodyColor: "#b0d4e8", bodyLabel: "Clear demonstrator",
+      material: "Resin (demonstrator)", origin: "Japan", price: "~¥20,000",
+      rating: 5,
+      review: "The vacuum filler holds an enormous amount of ink and the transparent barrel lets you watch every last drop disappear. The broad nib lays down a gloriously wet, expressive line. A true showpiece that also performs — watching ink levels drop as you write is oddly meditative.",
+      tags: ["Vacuum filler", "Demonstrator", "Broad writer"]
+    },
+    {
+      id: 4, brand: "Sailor", name: "1911S", model: "",
+      nib: "Fine", fill: "Cartridge / Converter",
+      bodyColor: "#1a1a2e", bodyLabel: "Gloss black resin",
+      material: "Resin", origin: "Japan", price: "~¥20,000",
+      rating: 5,
+      review: "Sailor's 21k gold fine nib is in a league of its own — springy, precise, and with just enough feedback to feel like the pen is connecting with paper. The 1911S size sits perfectly in hand for extended writing sessions. The definitive Japanese fine nib experience.",
+      tags: ["21k gold nib", "Springy feedback", "Elegant"]
+    },
+    {
+      id: 5, brand: "Platinum", name: "3776 Century", model: "Chartres Blue",
+      nib: "SF (Soft Fine)", fill: "Cartridge / Converter",
+      bodyColor: "#4a90c4", bodyLabel: "Chartres Blue resin",
+      material: "Resin", origin: "Japan", price: "~¥15,000",
+      rating: 5,
+      review: "The Chartres Blue edition's deep navy resin body is stunning in person. The SF nib is uniquely Platinum — a soft fine that rewards a light touch with subtle line variation. Platinum's legendary slip-and-seal cap keeps ink fresh for months without use. A pen you can pick up any time.",
+      tags: ["Chartres Blue edition", "Slip-and-seal cap", "Soft fine nib"]
+    },
+    {
+      id: 6, brand: "Platinum", name: "Jupiter Ebonite", model: "",
+      nib: "Fine", fill: "Eyedropper",
+      bodyColor: "#2d2b28", bodyLabel: "Black ebonite",
+      material: "Ebonite", origin: "Japan", price: "~¥30,000+",
+      rating: 4,
+      review: "A rare and beautiful pen. The hand-crafted ebonite body develops a gorgeous patina with age and use — no two will look the same after years of ownership. The fine nib is characteristically Platinum: dry and precise. The eyedropper capacity is enormous, making it a joy for long ink-soaking sessions.",
+      tags: ["Hand-crafted", "Eyedropper", "Ebonite patina"]
+    },
+    {
+      id: 7, brand: "Lamy", name: "2000", model: "",
+      nib: "Fine", fill: "Piston filler",
+      bodyColor: "#3a3a3a", bodyLabel: "Matte Makrolon",
+      material: "Makrolon + stainless steel", origin: "Germany", price: "~€180",
+      rating: 5,
+      review: "A Bauhaus icon unchanged since 1966. The hooded fine nib is all business — smooth, consistent, and refined. The piston holds a generous ink capacity and the matte Makrolon body ages beautifully, developing a subtle sheen with use. The one pen to rule them all.",
+      tags: ["Bauhaus icon", "Piston filler", "Hooded nib"]
+    },
+  ];
+
+  let activeFilter = "all";
+  let selectedId = null;
+
+  function stars(n) {
+    return "★".repeat(n) + "☆".repeat(5 - n);
+  }
+
+  function filteredPens() {
+    if (activeFilter === "all") return pens;
+    if (activeFilter === "SF") return pens.filter(p => p.nib.startsWith("SF"));
+    if (activeFilter === "Pilot" || activeFilter === "Platinum") return pens.filter(p => p.brand === activeFilter);
+    return pens.filter(p => p.nib === activeFilter);
+  }
+
+  function renderStats() {
+    const brands = new Set(pens.map(p => p.brand)).size;
+    const fills = new Set(pens.map(p => p.fill)).size;
+    const avg = (pens.reduce((s, p) => s + p.rating, 0) / pens.length).toFixed(1);
+    document.getElementById("stats-bar").innerHTML = [
+      { num: pens.length, lbl: "Pens" },
+      { num: brands, lbl: "Brands" },
+      { num: fills, lbl: "Fill types" },
+      { num: avg + " / 5", lbl: "Avg rating" },
+    ].map(s => `<div class="stat-item"><span class="stat-num">${s.num}</span><span class="stat-lbl">${s.lbl}</span></div>`).join("");
+  }
+
+  function renderGrid() {
+    const list = filteredPens();
+    document.getElementById("count-badge").textContent = list.length + " pen" + (list.length !== 1 ? "s" : "");
+    document.getElementById("pen-grid").innerHTML = list.map(p => `
+      <div class="pen-card ${selectedId === p.id ? 'selected' : ''}" onclick="selectPen(${p.id})">
+        <div class="card-brand">${p.brand}</div>
+        <div class="card-name">${p.name}</div>
+        <div class="card-model">${p.model || '&nbsp;'}</div>
+        <div class="card-tags">
+          <span class="tag tag-nib">${p.nib}</span>
+          <span class="tag tag-fill">${p.fill}</span>
         </div>
-        <div class="pen-card">
-            <h3>Luxury Fountain Pen</h3>
-            <p>A classic choice for enthusiasts.</p>
+        <div class="card-body-color">
+          <div class="color-swatch" style="background:${p.bodyColor}"></div>
+          <span class="color-label">${p.bodyLabel}</span>
         </div>
-        <div class="pen-card">
-            <h3>Eco-Friendly Pen</h3>
-            <p>Made from recycled materials.</p>
+        <div class="card-stars">${stars(p.rating)}</div>
+        <div class="card-snippet">${p.review.substring(0, 90)}…</div>
+      </div>
+    `).join("");
+  }
+
+  function renderDetail() {
+    const panel = document.getElementById("detail-panel");
+    if (!selectedId) { panel.innerHTML = ""; return; }
+    const p = pens.find(x => x.id === selectedId);
+    panel.innerHTML = `
+      <div class="detail-panel">
+        <div class="detail-header">
+          <div>
+            <div class="detail-brand">${p.brand}</div>
+            <div class="detail-title">${p.name}</div>
+            ${p.model ? `<div class="detail-edition">${p.model}</div>` : ''}
+          </div>
+          <button class="detail-close" onclick="selectPen(null)">close ✕</button>
         </div>
-        <div class="pen-card">
-            <h3>Gel Pen</h3>
-            <p>Smooth ink flow, perfect for everyday use.</p>
+        <div class="detail-body">
+          <div class="detail-specs">
+            <div class="specs-heading">Specifications</div>
+            ${p.model ? `<div class="spec-row"><span class="spec-key">Edition</span><span class="spec-val">${p.model}</span></div>` : ''}
+            <div class="spec-row"><span class="spec-key">Nib</span><span class="spec-val">${p.nib}</span></div>
+            <div class="spec-row"><span class="spec-key">Fill system</span><span class="spec-val">${p.fill}</span></div>
+            <div class="spec-row"><span class="spec-key">Material</span><span class="spec-val">${p.material}</span></div>
+            <div class="spec-row"><span class="spec-key">Origin</span><span class="spec-val">${p.origin}</span></div>
+            <div class="spec-row"><span class="spec-key">Price (approx.)</span><span class="spec-val">${p.price}</span></div>
+            <div class="spec-row"><span class="spec-key">Body</span><span class="spec-val" style="display:flex;align-items:center;gap:6px;justify-content:flex-end;"><span style="width:11px;height:11px;border-radius:50%;background:${p.bodyColor};border:1px solid rgba(0,0,0,0.12);display:inline-block;"></span>${p.bodyLabel}</span></div>
+            <div class="spec-row"><span class="spec-key">Rating</span><span class="spec-val spec-stars">${stars(p.rating)}</span></div>
+          </div>
+          <div class="detail-review">
+            <div class="review-heading">Mini review</div>
+            <p class="review-text">${p.review}</p>
+            <div class="detail-tags">${p.tags.map(t => `<span class="detail-tag">${t}</span>`).join("")}</div>
+          </div>
         </div>
-    </div>
+      </div>
+    `;
+    setTimeout(() => panel.scrollIntoView({ behavior: "smooth", block: "nearest" }), 50);
+  }
+
+  function selectPen(id) {
+    selectedId = selectedId === id ? null : id;
+    renderGrid();
+    renderDetail();
+  }
+
+  document.querySelectorAll(".chip").forEach(btn => {
+    btn.addEventListener("click", () => {
+      document.querySelectorAll(".chip").forEach(b => b.classList.remove("active"));
+      btn.classList.add("active");
+      activeFilter = btn.dataset.filter;
+      selectedId = null;
+      renderGrid();
+      renderDetail();
+    });
+  });
+
+  renderStats();
+  renderGrid();
+</script>
 </body>
 </html>
