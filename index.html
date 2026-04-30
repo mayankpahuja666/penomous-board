@@ -1,8 +1,22 @@
-penCollection = [{
-    Brand: 'Woodex',
-    Model: '4',
-    Nib: 'Kanwrite Broad',
-    Body: 'Brown Ripple Ebonite',
-    Ink: 'Lamy Sepia',
-    Status: 'Active'
-}];
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Penomous Board</title>
+    <script>
+        // Initialize Woodex pen in localStorage
+        localStorage.setItem('Woodex', JSON.stringify({
+            brand: 'Woodex',
+            model: '4',
+            nib: 'Kanwrite Broad',
+            body: 'Brown Ripple Ebonite',
+            ink: 'Lamy Sepia',
+            status: 'active'
+        }));
+    </script>
+</head>
+<body>
+    <h1>Welcome to Penomous Board</h1>
+</body>
+</html>
