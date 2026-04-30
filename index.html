@@ -1,50 +1,176 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>My Pen Collection</title>
+    <meta charset="UTF-8">
+    <title>My Fountain Pen Collection Dashboard</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <style>
+        /* Reset some elements for consistency */
+        *, *::before, *::after {
+            box-sizing: border-box;
+        }
         body {
-            font-family: Arial;
-            background-color: #f5f5f5;
-            padding: 20px;
+            font-family: 'Segoe UI', Arial, sans-serif;
+            background: linear-gradient(135deg, #ece9f7, #fafcff 80%);
+            color: #262626;
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+        }
+        .container {
+            max-width: 900px;
+            margin: 40px auto;
+            padding: 32px 16px 24px 16px;
+            background: #fff;
+            border-radius: 20px;
+            box-shadow: 0 4px 32px 0 rgba(30, 40, 60, 0.13);
+        }
+        h1 {
+            text-align: center;
+            font-size: 2.6rem;
+            letter-spacing: 1px;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+        .subtitle {
+            text-align: center;
+            color: #7b7b7b;
+            margin-bottom: 32px;
+            font-size: 1.1rem;
         }
         table {
-            border-collapse: collapse;
             width: 100%;
-            background: white;
+            border-collapse: separate;
+            border-spacing: 0;
+            font-size: 1.05rem;
         }
         th, td {
-            border: 1px solid #ddd;
-            padding: 10px;
+            padding: 14px 12px;
+            text-align: left;
         }
         th {
-            background-color: #333;
-            color: white;
+            background: linear-gradient(90deg, #26325b 60%, #42528e 100%);
+            color: #fff;
+            border-top-left-radius: 12px;
+            border-top-right-radius: 12px;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            border-bottom: 4px solid #ece9f7;
+        }
+        tr {
+            transition: background 0.18s;
+        }
+        tbody tr:hover {
+            background-color: #f3f7ff;
+        }
+        tr + tr td {
+            border-top: 1px solid #eaeaea;
+        }
+        td {
+            vertical-align: top;
+        }
+        .nib-broader {
+            font-weight: bold;
+            color: #233590;
+        }
+        .nib-fine {
+            color: #207850;
+            font-weight: 500;
+        }
+        .review {
+            font-style: italic;
+            color: #806c3a;
+        }
+        @media (max-width: 700px) {
+            .container {
+                padding: 8px 2vw;
+            }
+            table, thead, tbody, th, td, tr {
+                display: block;
+                width: 100%;
+            }
+            thead {
+                display: none;
+            }
+            tr {
+                margin-bottom: 26px;
+                border-radius: 14px;
+                box-shadow: 0 2px 10px rgba(40,40,60,.06);
+            }
+            td {
+                padding: 10px 12px;
+                text-align: left;
+                border-top: none;
+                border-bottom: 1px solid #edebf5;
+                position: relative;
+            }
+            td:before {
+                content: attr(data-label);
+                font-size: .95em;
+                font-weight: 600;
+                color: #42528e;
+                display: block;
+                margin-bottom: 2px;
+                letter-spacing: 0.5px;
+            }
+            td:last-child {
+                border-bottom: none;
+            }
         }
     </style>
 </head>
 <body>
-
-<h1>My Fountain Pen Collection</h1>
-
-<table>
-    <tr>
-        <th>Brand</th>
-        <th>Model</th>
-        <th>Nib</th>
-        <th>Body</th>
-        <th>Notes</th>
-    </tr>
-
-    <tr>
-        <td>Woodex</td>
-        <td>Model 4</td>
-        <td>Kanwrite B</td>
-        <td>Ebonite</td>
-        <td>The pen is version of Deccan Advocate, similar is size and dimension, I have been using this pen for a month now and it writes very smooth and juicy, my pen comes in Brown Ripple Ebonite</td>
-    </tr>
-
-</table>
-
+    <div class="container">
+        <h1>🖋️ My Fountain Pen Collection</h1>
+        <div class="subtitle">
+            A simple dashboard for all my fountain pens.<br>
+            <em>(Brand, Model, Nib, Body, Ink Used, Review)</em>
+        </div>
+        <table>
+            <thead>
+                <tr>
+                    <th>Brand</th>
+                    <th>Model</th>
+                    <th>Nib</th>
+                    <th>Body</th>
+                    <th>Ink Used</th>
+                    <th>Review</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td data-label="Brand">Woodex</td>
+                    <td data-label="Model">Model 4</td>
+                    <td data-label="Nib" class="nib-broader">B</td>
+                    <td data-label="Body">Brown Ripple Ebonite</td>
+                    <td data-label="Ink Used">Lamy Sepia</td>
+                    <td data-label="Review" class="review">
+                        Smooth and juicy. Inspired by Deccan Advocate. Feels premium; a joy to write with!
+                    </td>
+                </tr>
+                <tr>
+                    <td data-label="Brand">Pilot</td>
+                    <td data-label="Model">Custom 74</td>
+                    <td data-label="Nib" class="nib-fine">F</td>
+                    <td data-label="Body">Black Resin</td>
+                    <td data-label="Ink Used">Pilot Blue</td>
+                    <td data-label="Review" class="review">
+                        Reliable daily writer; flawless performance and beautiful flow.
+                    </td>
+                </tr>
+                <tr>
+                    <td data-label="Brand">Lamy</td>
+                    <td data-label="Model">Safari</td>
+                    <td data-label="Nib">M</td>
+                    <td data-label="Body">Charcoal Plastic</td>
+                    <td data-label="Ink Used">Waterman Serenity Blue</td>
+                    <td data-label="Review" class="review">
+                        Rugged and fun. Excellent for quick note-taking tasks.
+                    </td>
+                </tr>
+                <!-- Add more pens below by duplicating a <tr>...</tr> block and filling in your own details -->
+            </tbody>
+        </table>
+    </div>
 </body>
 </html>
