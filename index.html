@@ -1,268 +1,271 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>My Fountain Pen Collection Dashboard</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <style>
-        :root {
-            --primary: #4b6cb7;
-            --secondary: #182848;
-            --background: #f2f4fa;
-            --card-bg: #fff;
-            --shadow: rgba(40, 45, 80, 0.13);
-        }
-        body {
-            margin: 0;
-            font-family: 'Segoe UI', 'Roboto', Arial, sans-serif;
-            background: var(--background);
-            color: #203040;
-        }
-        /* Hero/header */
-        .hero {
-            background: linear-gradient(135deg, var(--primary), var(--secondary) 85%);
-            color: #fff;
-            padding: 60px 0 40px 0;
-            text-align: center;
-            position: relative;
-        }
-        .hero h1 {
-            font-size: 3rem;
-            margin: 0 0 10px 0;
-            font-weight: 800;
-            letter-spacing: 1px;
-            line-height: 1.12;
-            text-shadow: 0 2px 16px rgba(48,60,80,0.25);
-        }
-        .hero p {
-            font-size: 1.22rem;
-            color: #e3e8fa;
-            margin-bottom: 0;
-            line-height: 1.5;
-        }
-        .dashboard-container {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            gap: 32px;
-            max-width: 1200px;
-            margin: -50px auto 70px auto;
-            padding: 0 20px;
-        }
-        .pen-card {
-            background: var(--card-bg);
-            border-radius: 20px;
-            box-shadow: 0 6px 32px 0 var(--shadow);
-            flex: 1 1 340px;
-            max-width: 370px;
-            min-width: 260px;
-            margin: 0;
-            padding: 28px 24px 22px 24px;
-            display: flex;
-            flex-direction: column;
-            gap: 13px;
-            transition: transform 0.12s, box-shadow 0.13s;
-        }
-        .pen-card:hover {
-            transform: translateY(-7px) scale(1.017);
-            box-shadow: 0 16px 40px 0 rgba(40,62,102,.18);
-        }
-        .pen-header {
-            display: flex;
-            align-items: center;
-            gap: 14px;
-            margin-bottom: 4px;
-        }
-        .pen-icon {
-            background: linear-gradient(135deg, #6a8ac2 60%, #b8cfff 100%);
-            border-radius: 50%;
-            width: 48px;
-            height: 48px;
-            display: grid;
-            place-items: center;
-            box-shadow: 0 2px 7px #d0e0ff50;
-            font-size: 2rem;
-        }
-        .pen-title {
-            font-size: 1.4rem;
-            font-weight: 700;
-            color: var(--primary);
-        }
-        .pen-section {
-            margin: 1px 0;
-            display: flex;
-            flex-wrap: wrap;
-            gap: 8px 25px;
-            font-size: 1.05rem;
-        }
-        .pen-label {
-            color: #6e819c;
-            font-weight: 500;
-            width: 110px;
-            display: inline-block;
-        }
-        .pen-body, .pen-nib, .pen-nibmanuf, .pen-ink {
-            font-weight: 500;
-            color: #344473;
-        }
-        .pen-nib {
-            font-family: monospace;
-            background: #e5eafe;
-            color: #2732ab;
-            border-radius: 7px;
-            padding: 2px 7px;
-            margin-right: 1.5vw;
-            font-size: 1.09em;
-            letter-spacing: 0.4px;
-        }
-        .pen-nibmanuf {
-            background: #e6f6fd;
-            color: #27aacc;
-            border-radius: 7px;
-            padding: 2px 7px;
-            font-size: 1.09em;
-            margin-left: 2px;
-            letter-spacing: 0.2px;
-        }
-        .pen-review {
-            background: #fcf3e7;
-            border-left: 4px solid #ffc86b;
-            padding: 13px 13px 13px 18px;
-            font-style: italic;
-            border-radius: 9px;
-            color: #835c13;
-            margin: 4px 0 3px 0;
-            font-size: 1.03rem;
-            box-shadow: 0 2px 7px #ffe5bb36;
-        }
-        .pen-favorite {
-            background: #fffbe1;
-            color: #c88c18;
-            padding: 2px 10px;
-            margin-left: 9px;
-            font-size: 0.96em;
-            border-radius: 10px;
-            vertical-align: middle;
-            font-weight: 600;
-            text-shadow: 0 1px 5px #ffeea310;
-        }
-        @media (max-width: 820px) {
-            .dashboard-container { gap: 18px; }
-            .pen-card { max-width: 98vw; min-width: 90vw; }
-            .hero h1 { font-size: 2.1rem; }
-        }
-        @media (max-width: 570px) {
-            .dashboard-container { gap: 8px; padding: 0; }
-            .pen-card { padding: 15px 7vw; }
-        }
-    </style>
+  <meta charset="UTF-8" />
+  <title>Fountain Pen Collection</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- Google Fonts, free and gorgeous -->
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700;500;400&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #91addd;
+      --accent: #ffe4af;
+      --card-bg: #fff;
+      --bg: #f2f3f6;
+      --font: 'Montserrat', Arial, sans-serif;
+      --radius: 20px;
+      --shadow: 0 4px 32px 0 rgba(120, 120, 200, 0.10);
+    }
+    html, body {
+      background: var(--bg);
+      margin: 0;
+      padding: 0;
+      font-family: var(--font);
+      color: #26325b;
+    }
+    .hero {
+      background: linear-gradient(120deg, #cfe2ff 20%, #d3c2f8 100%), url('https://images.unsplash.com/photo-1464983953574-0892a716854b?auto=format&fit=crop&w=1200&q=80') center/cover;
+      padding: 64px 0 54px 0;
+      text-align: center;
+      position: relative;
+      min-height: 320px;
+      box-shadow: 0 2px 25px 0 rgba(130,150,230,0.12);
+    }
+    .hero .title {
+      font-size: 2.8rem;
+      font-weight: 700;
+      letter-spacing: 1.2px;
+      margin-bottom: 12px;
+      color: #273067;
+      text-shadow: 0 2px 14px #fff7, 0 0px 1px #c2aeff40;
+    }
+    .hero .desc {
+      font-size: 1.18rem;
+      color: #5a5488;
+      margin: 0 auto 16px auto;
+      max-width: 680px;
+      font-weight: 400;
+      line-height: 1.6;
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 36px;
+      max-width: 1200px;
+      margin: -80px auto 60px auto;
+      padding: 0 34px;
+    }
+    .pen-card {
+      background: var(--card-bg);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 28px 24px 22px 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 13px;
+      position: relative;
+      transition: transform 0.15s, box-shadow 0.13s;
+    }
+    .pen-card:hover {
+      transform: translateY(-8px) scale(1.02);
+      box-shadow: 0 12px 44px #afc9fa2b;
+    }
+    .pen-header {
+      display: flex;
+      align-items: center;
+      gap: 18px;
+      margin-bottom: 6px;
+    }
+    .pen-icon {
+      background: linear-gradient(135deg, #b3cbee 60%, #fffbe2 100%);
+      border-radius: 50%;
+      width: 64px;
+      height: 64px;
+      display: grid;
+      place-items: center;
+      font-size: 2.2rem;
+      box-shadow: 0 2px 12px #d0e0ff60;
+    }
+    .pen-title {
+      font-size: 1.4rem;
+      font-weight: 600;
+      color: #22385d;
+    }
+    .pen-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px 25px;
+      font-size: 1.08rem;
+      margin: 2px 0;
+    }
+    .pen-label {
+      color: #846bdf;
+      font-weight: 500;
+      width: 124px;
+      display: inline-block;
+    }
+    .pen-value {
+      color: #344473;
+      font-weight: 500;
+    }
+    .pen-nib {
+      background: #f6e9ff;
+      color: #5850bf;
+      border-radius: 7px;
+      padding: 3px 12px;
+      margin-right: 10px;
+      font-weight: bold;
+      font-family: inherit;
+      font-size: 1.01em;
+    }
+    .pen-nibmanuf {
+      background: #e5f7f8;
+      color: #18b3b3;
+      border-radius: 7px;
+      padding: 3px 12px;
+      font-size: 1em;
+      margin-left: 1px;
+    }
+    .pen-review {
+      background: #fff5eb;
+      border-left: 4px solid #ffe284;
+      padding: 14px 15px 14px 22px;
+      font-style: italic;
+      border-radius: 9px;
+      color: #b08a3b;
+      margin: 6px 0 3px 0;
+      font-size: 1.04rem;
+      box-shadow: 0 2px 7px #ffe5bb29;
+      word-break: break-word;
+    }
+    .pen-favorite {
+      background: #eef266;
+      color: #c79412;
+      padding: 2px 15px 2px 15px;
+      margin-left: 16px;
+      font-size: 0.96em;
+      border-radius: 11px;
+      font-weight: 700;
+      vertical-align: middle;
+      box-shadow: 0 1px 8px #fff09445;
+      letter-spacing: 0.1em;
+    }
+    @media (max-width: 750px) {
+      .grid { gap: 18px; padding: 0 4vw; }
+      .pen-card { padding: 15px 4vw; }
+    }
+    @media (max-width: 440px) {
+      .grid { padding: 0 0vw; }
+      .pen-card { padding: 10px 1vw; }
+      .hero .title { font-size: 1.3rem; }
+    }
+  </style>
 </head>
 <body>
-    <div class="hero">
-        <h1>🖋️ My Fountain Pen Collection</h1>
-        <p>
-            Welcome to my personalized dashboard.<br>
-            Track your pens by Brand, Model, Nib, Nib Manufacturer, Body, Ink Used, Review.
-        </p>
+  <div class="hero">
+    <div class="title">🖋️ My Fountain Pen Collection</div>
+    <div class="desc">
+      A snapshot of my inky adventures.<br>
+      <strong>Modern cards, clean design, and as many colors as the inks I use!</strong>
     </div>
-    <div class="dashboard-container">
-        <!-- Woodex Pen Card -->
-        <div class="pen-card">
-            <div class="pen-header">
-                <span class="pen-icon">🌳</span>
-                <div>
-                    <span class="pen-title">Woodex Model 4</span>
-                    <span class="pen-favorite">Favorite</span>
-                </div>
-            </div>
-            <div class="pen-section">
-                <span class="pen-label">Brand:</span>
-                <span class="pen-body">Woodex</span>
-            </div>
-            <div class="pen-section">
-                <span class="pen-label">Model:</span>
-                <span class="pen-body">Model 4</span>
-            </div>
-            <div class="pen-section">
-                <span class="pen-label">Nib:</span>
-                <span class="pen-nib">B</span>
-                <span class="pen-nibmanuf">Kanwrite</span>
-            </div>
-            <div class="pen-section">
-                <span class="pen-label">Body:</span>
-                <span class="pen-body">Brown Ripple Ebonite</span>
-            </div>
-            <div class="pen-section">
-                <span class="pen-label">Ink Used:</span>
-                <span class="pen-ink">Lamy Sepia</span>
-            </div>
-            <div class="pen-review">
-                Smooth and juicy. Inspired by Deccan Advocate. Feels premium; a joy to write with!
-            </div>
-        </div>
-        <!-- Pilot Card -->
-        <div class="pen-card">
-            <div class="pen-header">
-                <span class="pen-icon">✈️</span>
-                <span class="pen-title">Pilot Custom 74</span>
-            </div>
-            <div class="pen-section">
-                <span class="pen-label">Brand:</span>
-                <span class="pen-body">Pilot</span>
-            </div>
-            <div class="pen-section">
-                <span class="pen-label">Model:</span>
-                <span class="pen-body">Custom 74</span>
-            </div>
-            <div class="pen-section">
-                <span class="pen-label">Nib:</span>
-                <span class="pen-nib">F</span>
-                <span class="pen-nibmanuf">Pilot</span>
-            </div>
-            <div class="pen-section">
-                <span class="pen-label">Body:</span>
-                <span class="pen-body">Black Resin</span>
-            </div>
-            <div class="pen-section">
-                <span class="pen-label">Ink Used:</span>
-                <span class="pen-ink">Pilot Blue</span>
-            </div>
-            <div class="pen-review">
-                Reliable daily writer; flawless performance and beautiful flow.
-            </div>
-        </div>
-        <!-- Lamy Card -->
-        <div class="pen-card">
-            <div class="pen-header">
-                <span class="pen-icon">🦈</span>
-                <span class="pen-title">Lamy Safari</span>
-            </div>
-            <div class="pen-section">
-                <span class="pen-label">Brand:</span>
-                <span class="pen-body">Lamy</span>
-            </div>
-            <div class="pen-section">
-                <span class="pen-label">Model:</span>
-                <span class="pen-body">Safari</span>
-            </div>
-            <div class="pen-section">
-                <span class="pen-label">Nib:</span>
-                <span class="pen-nib">M</span>
-                <span class="pen-nibmanuf">Lamy</span>
-            </div>
-            <div class="pen-section">
-                <span class="pen-label">Body:</span>
-                <span class="pen-body">Charcoal Plastic</span>
-            </div>
-            <div class="pen-section">
-                <span class="pen-label">Ink Used:</span>
-                <span class="pen-ink">Waterman Serenity Blue</span>
-            </div>
-            <div class="pen-review">
-                Rugged and fun. Excellent for quick note-taking tasks.
-            </div>
-        </div>
-        <!-- Add more pen cards by duplicating the pen-card block above and changing data/icons -->
+  </div>
+  <div class="grid">
+    <!-- Example Pen Card -->
+    <div class="pen-card">
+      <div class="pen-header">
+        <span class="pen-icon">🌳</span>
+        <span>
+          <span class="pen-title">Woodex Model 4</span>
+          <span class="pen-favorite">FAVORITE</span>
+        </span>
+      </div>
+      <div class="pen-row">
+        <span class="pen-label">Brand:</span>
+        <span class="pen-value">Woodex</span>
+      </div>
+      <div class="pen-row">
+        <span class="pen-label">Model:</span>
+        <span class="pen-value">Model 4</span>
+      </div>
+      <div class="pen-row">
+        <span class="pen-label">Nib:</span>
+        <span class="pen-nib">B</span>
+        <span class="pen-nibmanuf">Kanwrite</span>
+      </div>
+      <div class="pen-row">
+        <span class="pen-label">Body:</span>
+        <span class="pen-value">Brown Ripple Ebonite</span>
+      </div>
+      <div class="pen-row">
+        <span class="pen-label">Ink Used:</span>
+        <span class="pen-value">Lamy Sepia</span>
+      </div>
+      <div class="pen-review">
+        Smooth and juicy. Inspired by Deccan Advocate. Feels premium; a joy to write with!
+      </div>
     </div>
+    <!-- Add more pen-cards below (or generate using CSV/JS as explained earlier) -->
+    <div class="pen-card">
+      <div class="pen-header">
+        <span class="pen-icon">✈️</span>
+        <span class="pen-title">Pilot Custom 74</span>
+      </div>
+      <div class="pen-row">
+        <span class="pen-label">Brand:</span>
+        <span class="pen-value">Pilot</span>
+      </div>
+      <div class="pen-row">
+        <span class="pen-label">Model:</span>
+        <span class="pen-value">Custom 74</span>
+      </div>
+      <div class="pen-row">
+        <span class="pen-label">Nib:</span>
+        <span class="pen-nib">F</span>
+        <span class="pen-nibmanuf">Pilot</span>
+      </div>
+      <div class="pen-row">
+        <span class="pen-label">Body:</span>
+        <span class="pen-value">Black Resin</span>
+      </div>
+      <div class="pen-row">
+        <span class="pen-label">Ink Used:</span>
+        <span class="pen-value">Pilot Blue</span>
+      </div>
+      <div class="pen-review">
+        Reliable daily writer; flawless performance and beautiful flow.
+      </div>
+    </div>
+    <div class="pen-card">
+      <div class="pen-header">
+        <span class="pen-icon">🦈</span>
+        <span class="pen-title">Lamy Safari</span>
+      </div>
+      <div class="pen-row">
+        <span class="pen-label">Brand:</span>
+        <span class="pen-value">Lamy</span>
+      </div>
+      <div class="pen-row">
+        <span class="pen-label">Model:</span>
+        <span class="pen-value">Safari</span>
+      </div>
+      <div class="pen-row">
+        <span class="pen-label">Nib:</span>
+        <span class="pen-nib">M</span>
+        <span class="pen-nibmanuf">Lamy</span>
+      </div>
+      <div class="pen-row">
+        <span class="pen-label">Body:</span>
+        <span class="pen-value">Charcoal Plastic</span>
+      </div>
+      <div class="pen-row">
+        <span class="pen-label">Ink Used:</span>
+        <span class="pen-value">Waterman Serenity Blue</span>
+      </div>
+      <div class="pen-review">
+        Rugged and fun. Excellent for quick note-taking tasks.
+      </div>
+    </div>
+    <!-- Keep adding more pen cards! -->
+  </div>
 </body>
 </html>
